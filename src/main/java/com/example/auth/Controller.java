@@ -15,15 +15,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/public")
 @RequiredArgsConstructor
-@Slf4j
 public class Controller {
     private final UsersService usersService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ResponseUserDto> createUser(@RequestBody Users user){
-        log.info("-/signup request: " + user.toString());
+    public ResponseEntity<ResponseUserDto> createUser(@RequestBody Users user) {
         Optional<Users> newUser = usersService.save(user);
-        if(newUser.isPresent()){
+        if (newUser.isPresent()) {
             ResponseUserDto userDto = ResponseUserDto.builder()
                     .userName(newUser.get().getUserName())
                     .name(newUser.get().getName())
@@ -38,26 +36,24 @@ public class Controller {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Users user){
-        log.info("-/login request: " + user.toString());
-        Users users= usersService.login(user);
+    public ResponseEntity<String> loginUser(@RequestBody Users user) {
+        Users users = usersService.login(user);
 
-        if(users!=null){
+        if (users != null) {
 
-            return new ResponseEntity<>(users.getToken(),HttpStatus.OK);
+            return new ResponseEntity<>(users.getToken(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(null,HttpStatusCode.valueOf(401));
+        return new ResponseEntity<>(null, HttpStatusCode.valueOf(401));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<ResponseUserDto> tokenUser(@RequestParam String token){
-        log.info("-/me request: "+token);
-        ResponseUserDto userDto= usersService.verifyUser(token);
+    public ResponseEntity<ResponseUserDto> tokenUser(@RequestParam String token) {
+        ResponseUserDto userDto = usersService.verifyUser(token);
 
-        if(userDto!=null){
-                 return new ResponseEntity<>(userDto,HttpStatus.OK);
+        if (userDto != null) {
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
         }
-     return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
 
