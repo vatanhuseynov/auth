@@ -11,3 +11,8 @@ services:
       - ./sql/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
     ports:
       - "5432:5432"
+    networks:
+      - app
+networks:
+  app:
+    driver: bridge
