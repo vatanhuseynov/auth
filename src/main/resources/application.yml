@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/microservices?currentSchema=db
-    username: microservices
+    url: jdbc:postgresql://localhost:5432/authservice
+    username: dbuser
     password: pass
     driver-class-name: org.postgresql.Driver
   jpa:
